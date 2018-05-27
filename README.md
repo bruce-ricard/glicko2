@@ -1,14 +1,20 @@
-# glicko2
+# Glicko2
 
 ## Ocaml Glicko2 implementation
 
-This library implements the Glicko2 algorithm
-(http://www.glicko.net/glicko/glicko2.pdf), which provides
+This library implements the
+[Glicko2 algorithm](http://www.glicko.net/glicko/glicko2.pdf),
+which provides
 a rating system for 2 player games.
 
 This library is composed of a pre-instantiated module you can use
 out of the box, and a functor which allows you to configure certain
 variables of the algorithm.
+
+The [original implementation](https://github.com/jlouis/o-glicko2)
+of the algorithm was written by
+[Jesper Louis Andersen](https://github.com/jlouis). This library adds
+a clean API layer around it.
 
 ## Installing
 
@@ -23,6 +29,7 @@ opam pin add https://github.com/bruce-ricard/glicko2
 ```
 git clone https://github.com/bruce-ricard/glicko2.git
 cd glicko2
+# Install dependencies, you can find them in the opam file.
 make
 make install
 
@@ -42,3 +49,9 @@ module.
 If you need to configure the low level variables of the Glicko2
 algorithm, you might want to use provided
 [functor](https://github.com/bruce-ricard/glicko2/blob/master/example/functor.ml).
+
+## License
+
+This library is distributed under
+[GNU GPLv2](https://github.com/bruce-ricard/glicko2/blob/master/LICENSE.md).
+Feel free to contact me if you have any question or issue with the licensing.
