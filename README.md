@@ -1,4 +1,4 @@
-# Glicko2
+# Glicko2 [![Build Status](https://travis-ci.org/bruce-ricard/glicko2.svg?branch=master)](https://travis-ci.org/bruce-ricard/glicko2)
 
 ## Ocaml Glicko2 implementation
 
