@@ -14,8 +14,8 @@ build-test : [
   [make "test"]
 ]
 remove: ["ocamlfind" "remove" "glicko2"]
-depends: [
-  "ocamlfind"
-  "logs"
-  "alcotest"
+depends : [
+  "ocamlfind" { build & >= "1.7.0" }
+  "logs" { >= "0.6.0" }
+  "alcotest" { >= "0.7.0" }
 ]
