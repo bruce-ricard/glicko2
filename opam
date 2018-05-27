@@ -3,10 +3,10 @@ name: "glicko2"
 version: "0.1.0"
 maintainer: "Bruce Ricard <bruce.ricard@gmail.com>"
 author: "Jesper Louis Andersen <jesper.louis.andersen@gmail.com>, Bruce Ricard <bruce.ricard@gmail.com>"
-homepage: "https://github.com/bruce-ricard/o-glicko2"
-bug-reports: "https://github.com/bruce-ricard/o-glicko2"
+homepage: "https://github.com/bruce-ricard/glicko2"
+bug-reports: "https://github.com/bruce-ricard/glicko2"
 license: "GNU GPLv2"
-dev-repo: "https://github.com/bruce-ricard/o-glicko2"
+dev-repo: "https://github.com/bruce-ricard/glicko2"
 build: [make]
 install: [make "install"]
 build-test : [
