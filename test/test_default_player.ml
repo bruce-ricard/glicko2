@@ -24,12 +24,8 @@ module Glicko2 = Glicko2.Default
 open Glicko2
 open SingleGame
 
-let default_player =
-  (default_player :> ?rating:int ->
-                     ?rating_deviation:int ->
-                     unit ->
-                     player_result
-  )
+module Utils = Test_utils.MakeSingleGame(Glicko2.SingleGame)
+let player_return = Utils.player_return
 
 let test_default_player () =
   Alcotest.check

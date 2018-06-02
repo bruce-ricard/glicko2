@@ -18,22 +18,13 @@
  * along with Glicko2. If not, see <http://www.gnu.org/licenses/>.
  *)
 
+module Glicko2 = Glicko2.Default.LowLevel
+open Glicko2
 
+module Utils = Test_utils.MakePlayer(Glicko2)
 
-
-module Glicko2 = Glicko2.Default
-open Glicko2.LowLevel
-open Test_utils
-
-let player_to_opponent
-      {
-        Glicko2.rating;
-        rating_deviation;
-      } =
-  {
-    Glicko2.LowLevel.rating = rating;
-    rating_deviation = rating_deviation;
-  }
+let default_player = Utils.default_player Glicko2.default_player
+let player = Utils.player
 
 let test_rate_one_game () =
   let game_results =

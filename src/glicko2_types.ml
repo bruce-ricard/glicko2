@@ -30,7 +30,31 @@ module type GLICKO2_CONFIG =
     val default_volatility :  [ `Default | `Manual of float ]
   end
 
-module type GLICKO2 =
+type unknown_error = [
+    `UnknownError of string
+  ]
+
+type rate_error =
+  [
+  | `InvalidVolatility
+  | `ExceededIterations
+  | unknown_error
+  ]
+
+type player_error = [
+  | `InvalidArgument of string
+  | unknown_error
+  ]
+
+type ('a, 'b) result =
+  [
+  | `Ok of 'a
+  | `Error of 'b
+  ]
+
+type 'a rate_result = ('a, rate_error) result
+
+module type PLAYER =
   sig
     (**
 The type containing the data need for the Glicko2 algorithm.
@@ -44,92 +68,84 @@ use the "default_player" function defined in this module.
         volatility: float;
       }
 
-    type unknown_error = [
-        `UnknownError of string
-      ]
-
-    type rate_error =
-      [
-      | `InvalidVolatility
-      | `ExceededIterations
-      | unknown_error
-      ]
-
-    type player_error = [
-      | `InvalidArgument of string
-      | unknown_error
-      ]
-
-    type ('a, 'b) result =
-      [
-      | `Ok of 'a
-      | `Error of 'b
-      ]
-
-    type 'a rate_result = ('a, rate_error) result
     type player_result = (player, player_error) result
 
-    module LowLevel :
-    sig
-      type personal_result = [ `Win | `Lose | `Draw ]
+  end
 
-      type opponent =
-        {
-          rating: float;
-          rating_deviation: float;
-        }
+module type LOW_LEVEL =
+  sig
+    include PLAYER
+    type personal_result = [ `Win | `Lose | `Draw ]
 
-      type game_outcome = {
-          opponent: opponent;
-          result: personal_result;
-        }
+    type opponent =
+      {
+        rating: float;
+        rating_deviation: float;
+      }
 
-      type game_results =
-        {
-          player : player;
-          games : game_outcome * game_outcome list
-        }
+    val player_to_opponent : player -> opponent
 
-      val default_player:
-        ?rating:int -> ?rating_deviation:int -> unit
-        -> player_result
-      val rate: game_results -> player rate_result
-    end
+    type game_outcome = {
+        opponent: opponent;
+        result: personal_result;
+      }
 
-    module SingleGame :
-    sig
-      type game_outcome =
-        [ `Player1Win | `Player2Win | `Draw ]
+    type game_results =
+      {
+        player : player;
+        games : game_outcome * game_outcome list
+      }
 
-      type new_ratings =
-        {
-          new_player1: player;
-          new_player2: player;
-        }
+    val default_player:
+      ?rating:int -> ?rating_deviation:int -> unit
+      -> player_result
+    val rate: game_results -> player rate_result
+    val update_player_after_not_player_in_rating_period:
+      player -> player_result
+  end
 
-      (**
+module type SINGLE_GAME =
+  sig
+    include PLAYER
+
+    type game_outcome =
+      [ `Player1Win | `Player2Win | `Draw ]
+
+    type new_ratings =
+      {
+        new_player1: player;
+        new_player2: player;
+      }
+
+    (**
     The input type to the Glicko2 rating functions.
     The two players, and the outcome of the game.
-       *)
-      type game_result =
-        {
-          player1: player;
-          player2: player;
-          game_outcome: game_outcome;
-        }
+     *)
+    type game_result =
+      {
+        player1: player;
+        player2: player;
+        game_outcome: game_outcome;
+      }
 
-      (**
+    (**
     The recommended way of creating a new player.
     It will have a rating of 1500 (unless overwritten),
     a rating deviation of 350 (unless overwritten), and
     a volatility of 0.06.
-       *)
-      val default_player:
-        ?rating:int -> ?rating_deviation:int -> unit
-        -> player_result
+     *)
+    val default_player:
+      ?rating:int -> ?rating_deviation:int -> unit
+      -> player_result
 
-      val rate: game_result -> new_ratings rate_result
-      val update_player_after_not_player_in_rating_period:
-        player -> player_result
-    end
+    val rate: game_result -> new_ratings rate_result
+    val update_player_after_not_player_in_rating_period:
+      player -> player_result
+  end
+
+
+module type GLICKO2 =
+  sig
+    module LowLevel : LOW_LEVEL
+    module SingleGame : SINGLE_GAME
   end

@@ -18,11 +18,13 @@
  * along with Glicko2. If not, see <http://www.gnu.org/licenses/>.
  *)
 
-
-
 open Glicko2.Default
 open SingleGame
-open Test_utils
+
+module Utils = Test_utils.MakeSingleGame(Glicko2.Default.SingleGame)
+let player_return = Utils.player_return
+let default_player =
+  Utils.default_player Glicko2.Default.SingleGame.default_player
 
 let update =
   update_player_after_not_player_in_rating_period

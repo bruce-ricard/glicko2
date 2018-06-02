@@ -18,7 +18,6 @@
  * along with Glicko2. If not, see <http://www.gnu.org/licenses/>.
  *)
 
-
 module Config =
   struct
     (* To update those 3 values, you should read the Glicko2
@@ -50,4 +49,4 @@ module M = Glicko2.Make(Config)
 module Glicko2 = M.SingleGame
 
 (* Now you can use the Glicko2 module like you would use it
-in simple.ml or low_level.ml *)
+in single_game.ml or low_level.ml *)

@@ -34,13 +34,6 @@ module Make (Config : Glicko2_types.GLICKO2_CONFIG) =
       end
     module Glicko_internal = Glicko_internal.Make(InternalConf)
 
-    type player =
-      {
-        rating: float;
-        rating_deviation: float;
-        volatility: float;
-      }
-
     type unknown_error = [
         `UnknownError of string
       ]
@@ -64,10 +57,19 @@ module Make (Config : Glicko2_types.GLICKO2_CONFIG) =
       ]
 
     type 'a rate_result = ('a, rate_error) result
-    type player_result = (player, player_error) result
 
     module Player =
       struct
+
+        type player =
+          {
+            rating: float;
+            rating_deviation: float;
+            volatility: float;
+          }
+
+        type player_result = (player, player_error) result
+
         let default_rating =
           Default_values.rating Config.default_rating
         and default_deviation =
@@ -93,37 +95,45 @@ module Make (Config : Glicko2_types.GLICKO2_CONFIG) =
                 rating_deviation = float_of_int rating_deviation;
                 volatility = default_volatility;
               }
+
+        let player_to_string player =
+          Printf.sprintf
+            "{rating = %f; rating_deviation = %f; volatility = %f}"
+            player.rating
+            player.rating_deviation
+            player.volatility
+
+        let internal_player player =
+          let open Glicko_internal in
+          {
+            r = player.rating;
+            rd = player.rating_deviation;
+            sigma = player.volatility;
+          }
+
+        let internal_opponent player game_result =
+          let open Glicko_internal in
+          { rj = player.rating;
+            rdj = player.rating_deviation;
+            sj = game_result;
+          }
+
+        let player_from_internal internal =
+          let open Glicko_internal in
+          {
+            rating = internal.r;
+            rating_deviation = internal.rd;
+            volatility = internal.sigma;
+          }
+
+        let update_player_after_not_player_in_rating_period player =
+          let internal_p = internal_player player in
+          let updated_internal =
+            Glicko_internal.update_after_not_playing_in_rating_period
+          internal_p in
+          `Ok (player_from_internal updated_internal)
+
       end
-
-    let player_to_string player =
-      Printf.sprintf
-        "{rating = %f; rating_deviation = %f; volatility = %f}"
-        player.rating
-        player.rating_deviation
-        player.volatility
-
-    let internal_player player =
-      let open Glicko_internal in
-      {
-        r = player.rating;
-        rd = player.rating_deviation;
-        sigma = player.volatility;
-      }
-
-    let internal_opponent player game_result =
-      let open Glicko_internal in
-      { rj = player.rating;
-        rdj = player.rating_deviation;
-        sj = game_result;
-      }
-
-    let player_from_internal internal =
-      let open Glicko_internal in
-      {
-        rating = internal.r;
-        rating_deviation = internal.rd;
-        volatility = internal.sigma;
-      }
 
     let internal_outcome =
       let open Glicko_internal in
@@ -131,13 +141,6 @@ module Make (Config : Glicko2_types.GLICKO2_CONFIG) =
       | `Win -> Win
       | `Lose -> Lost
       | `Draw -> Draw
-
-    let update_player_after_not_player_in_rating_period player =
-      let internal_p = internal_player player in
-      let updated_internal =
-        Glicko_internal.update_after_not_playing_in_rating_period
-          internal_p in
-      `Ok (player_from_internal updated_internal)
 
     let is_too_small volatility = volatility < 1e-10
 
@@ -241,10 +244,6 @@ module Make (Config : Glicko2_types.GLICKO2_CONFIG) =
             new_player1: player;
             new_player2: player;
           }
-
-        (*    type rate_result =
-      | NewRatings of new_ratings
-      | Error of string*)
 
         let outcome_to_string = function
           | `Player1Win -> "Player1Win"

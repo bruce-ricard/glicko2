@@ -19,10 +19,12 @@
  *)
 
 
+open Glicko2.Default.SingleGame
 
-open Glicko2.Default
-open SingleGame
-open Test_utils
+module Utils = Test_utils.MakeSingleGame(Glicko2.Default.SingleGame)
+let player_return = Utils.player_return
+let default_player =
+  Utils.default_player Glicko2.Default.SingleGame.default_player
 
 let test_simple_rate () =
   let game_result =
