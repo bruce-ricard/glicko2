@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 33936149f16ebdf6a4cb7ceb84fed7af) *)
+(* DO NOT EDIT (digest: 48291fb1bb2d749c5b73ca0fa680dad1) *)
 module OASISGettext = struct
 (* # 22 "src/oasis/OASISGettext.ml" *)
 
@@ -880,7 +880,7 @@ open Ocamlbuild_plugin;;
 let package_default =
   {
      MyOCamlbuildBase.lib_ocaml =
-       [("glicko2", ["src"], []); ("examples", ["example"], [])];
+       [("glicko2", ["src"], []); ("glicko2-examples", ["example"], [])];
      lib_c = [];
      flags = [];
      includes = [("test", ["src"]); ("example", ["src"])]

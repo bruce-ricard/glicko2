@@ -26,7 +26,7 @@ Test test
   WorkingDirectory: test/
   Run: true
 
-Library examples
+Library glicko2-examples
   Path: example
   BuildDepends: glicko2
   InternalModules: Single_game, Low_level, Functor
