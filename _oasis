@@ -2,14 +2,13 @@ OASISFormat: 0.4
 Name:        Glicko2
 Version:     0.1
 Synopsis:    Ocaml implementation of the Glicko2 rating system
-Authors:     jlouis, ricard
+Authors:     jlouis, bruce-ricard
 License:     LGPL-2.1 with OCaml linking exception
 BuildTools:  ocamlbuild
 Plugins:     META (0.4), DevFiles (0.4)
 
 Library glicko2
   Path:       src
-  BuildTools: ocamlbuild
   BuildDepends: logs, logs.fmt, threads
   InternalModules: Glicko_internal, InternalLogs, Default_values
   Modules: Glicko2, Glicko2_types
@@ -26,3 +25,9 @@ Test test
   Command: $test
   WorkingDirectory: test/
   Run: true
+
+Library examples
+  Path: example
+  BuildDepends: glicko2
+  InternalModules: Single_game, Low_level, Functor
+  Modules:
