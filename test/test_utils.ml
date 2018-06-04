@@ -64,6 +64,10 @@ module MakePlayer(Player : PLAYER) =
       Alcotest.testable (Fmt.of_to_string player_return_to_string)
                         (=)
 
+    (* This function probably should be refactored.
+       It takes a "default_player" function and makes it
+       return a player, while failing on errors
+     *)
     let default_player dp ?rating ?rating_deviation () =
       match dp ?rating ?rating_deviation () with
       | `Ok p -> p
