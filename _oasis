@@ -8,7 +8,7 @@ BuildTools:  ocamlbuild
 Plugins:     META (0.4), DevFiles (0.4)
 
 Library glicko2
-  Path:       src
+  Path: src
   BuildDepends: logs, logs.fmt, threads
   InternalModules: Glicko_internal, InternalLogs, Default_values
   Modules: Glicko2, Glicko2_types
@@ -21,13 +21,14 @@ Executable test
   BuildDepends: alcotest, glicko2
   MainIs:     test.ml
 
+Executable examples
+  Path: example
+  CompiledObject: best
+  Install: false
+  BuildDepends: glicko2
+  MainIs: main.ml
+
 Test test
   Command: $test
   WorkingDirectory: test/
   Run: true
-
-Library glicko2-examples
-  Path: example
-  BuildDepends: glicko2
-  InternalModules: Single_game, Low_level, Functor
-  Modules:
