@@ -1,6 +1,6 @@
 # OASIS_START
-# DO NOT EDIT (digest: 35a6e362c0a10630800613c8938cae3a)
-version = "0.1"
+# DO NOT EDIT (digest: 6e09ed17dc028261e2898af9423b52d2)
+version = "1.0.0"
 description = "Ocaml implementation of the Glicko2 rating system"
 requires = "glicko2"
 archive(byte) = "examples.cma"
