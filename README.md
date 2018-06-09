@@ -21,7 +21,7 @@ a clean API layer around it.
 ### With opam (recommended)
 
 ```
-opam pin add https://github.com/bruce-ricard/glicko2
+opam install glicko2
 ```
 
 ### From the source
