@@ -168,6 +168,6 @@ module Make(Config : INTERNAL_CONFIG) =
     let update_after_not_playing_in_rating_period {r; rd; sigma} =
       let rs, rds = scale r rd in
       let new_rds = sqrt ((square rds) +. (square sigma)) in
-      let rp, rdp = unscale rs new_rds in
+      let _rp, rdp = unscale rs new_rds in
       {r; rd = rdp; sigma}
   end

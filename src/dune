@@ -1,0 +1,5 @@
+(library
+ (public_name glicko2)
+ (modules glicko2 glicko2_types glicko_internal internalLogs default_values)
+ (private_modules glicko_internal internalLogs default_values)
+ (libraries logs logs.fmt threads))

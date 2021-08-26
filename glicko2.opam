@@ -6,7 +6,7 @@ author: ["Bruce Ricard <bruce.ricard@gmail.com>" "Jesper Louis Andersen <jesper.
 homepage: "https://github.com/bruce-ricard/glicko2"
 bug-reports: "https://github.com/bruce-ricard/glicko2/issues"
 license: "GNU GPLv2"
-dev-repo: "git@github.com:bruce-ricard/glicko2.git"
+dev-repo: "git+https://github.com/bruce-ricard/glicko2.git"
 build: [make]
 install: [make "install"]
 build-test : [

@@ -38,13 +38,6 @@ module Make (Config : Glicko2_types.GLICKO2_CONFIG) =
         `UnknownError of string
       ]
 
-    type rate_error =
-      [
-      | `InvalidVolatility
-      | `ExceededIterations
-      | unknown_error
-      ]
-
     type player_error = [
       | `InvalidArgument of string
       | unknown_error
@@ -55,8 +48,6 @@ module Make (Config : Glicko2_types.GLICKO2_CONFIG) =
       | `Ok of 'a
       | `Error of 'b
       ]
-
-    type 'a rate_result = ('a, rate_error) result
 
     module Player =
       struct
@@ -155,7 +146,7 @@ module Make (Config : Glicko2_types.GLICKO2_CONFIG) =
             rating_deviation: float;
           }
 
-        let player_to_opponent ({rating; rating_deviation;} : player) =
+        let player_to_opponent ({rating; rating_deviation; _} : player) =
           {rating; rating_deviation;}
 
         let opponent_to_internal opponent game_result =
